@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+    <group>
+        <item
+            android:id="@+id/preferences"
+            android:title="@string/preferences"
+            android:icon="@android:drawable/ic_menu_preferences"
+            app:showAsAction="ifRoom">
+            <menu>
+                <item
+                    android:id="@+id/translate"
+                    android:title="@string/translate"
+                    android:checkable="true" />
+                <item
+                    android:id="@+id/scale"
+                    android:title="@string/scale"
+                    android:checkable="true" />
+                <item
+                    android:id="@+id/rotate"
+                    android:title="@string/rotate"
+                    android:checkable="true"
+                    android:enabled="false" />
+                <item
+                    android:id="@+id/drag_on_pinch"
+                    android:title="@string/drag_on_pinch"
+                    android:checkable="true" />
+            </menu>
+        </item>
+    </group>
+    -->
+
+    <item
+        android:id="@+id/add_photo"
+        android:title="@string/add_photo"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/clear"
+        android:title="@string/add_photo"
+        android:icon="@android:drawable/ic_menu_revert"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/info"
+        android:title="@string/info"
+        android:icon="@android:drawable/ic_menu_info_details"
+        app:showAsAction="ifRoom" />
+</menu>

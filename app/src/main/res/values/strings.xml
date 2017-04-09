@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PinchToZoom</string>
+    <string name="add_photo">Add photo</string>
+    <string name="clear">Clear</string>
+    <string name="info">Info</string>
+    <string name="info_message"><a href="https://github.com/martinwithaar/PinchToZoom">PinchToZoom</a> sample app\nReleased under the <a href="https://github.com/martinwithaar/PinchToZoom/blob/master/LICENSE">MIT License</a>\n\n<b>Instructions:</b>\n* Pinch to zoom\n* Double-tap to zoom-in/out\n* Slide to right for next photo\n\nCreated by Martin Withaar\n<a href="mailto:martin.withaar@gmail.com">martin.withaar@gmail.com</a>\n\nDon\'t hesitate to include in your project :)</string>
+    <string name="version">Version</string>
+</resources>
