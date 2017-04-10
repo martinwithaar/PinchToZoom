@@ -15,5 +15,12 @@ PinchToZoom for Android is a simple but feature complete library for adding pinc
 * Does not extend the *ImageView* class so is usable with custom *ImageView* implementations
 * Fully customizable
 
+## Integrate
+Adding pinch-to-zoom functionality to your *ImageView* is easy as this:
+```java
+ImageView imageView = (ImageView) view.findViewById(R.id.image);
+imageView.setOnTouchListener(new ImageMatrixTouchHandler(view.getContext()));
+```
+
 ## Customization
-The *ImageMatrixTouchHandler* class has multiple getter/setter methods that allow for changing the behavior and animation settings. Consult the project's Javadoc for further explanation.
+The *ImageMatrixTouchHandler* class has multiple getter/setter methods that allow for changing the behavior and animation settings.
