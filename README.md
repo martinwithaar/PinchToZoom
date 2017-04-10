@@ -24,3 +24,6 @@ imageView.setOnTouchListener(new ImageMatrixTouchHandler(view.getContext()));
 
 ## Customization
 The *ImageMatrixTouchHandler* class has multiple getter/setter methods that allow for changing the behavior and animation settings.
+
+### Javadoc
+Consult the Javadoc at https://martinwithaar.github.io/PinchToZoom/
