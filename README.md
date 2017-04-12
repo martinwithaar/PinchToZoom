@@ -1,3 +1,5 @@
+[![Android Arsenal](https://img.shields.io/badge/Android_Arsenal-PinchToZoom-brightgreen.svg)](https://android-arsenal.com/details/1/5575)
+
 # PinchToZoom
 Android's ImageView pinch-to-zoom made easy
 
