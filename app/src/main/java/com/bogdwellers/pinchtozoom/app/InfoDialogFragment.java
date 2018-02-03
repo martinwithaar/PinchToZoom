@@ -25,12 +25,12 @@ public class InfoDialogFragment extends DialogFragment {
 
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View view = layoutInflater.inflate(R.layout.dialog_about, null);
-        TextView textView = (TextView) view.findViewById(R.id.text);
+        TextView textView = view.findViewById(R.id.text);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         Activity activity = getActivity();
         try {
             PackageInfo packageInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-            TextView versionView = (TextView) view.findViewById(R.id.version);
+            TextView versionView = view.findViewById(R.id.version);
             versionView.setText(packageInfo.versionName);
         } catch(PackageManager.NameNotFoundException e) {
             // Do nothing

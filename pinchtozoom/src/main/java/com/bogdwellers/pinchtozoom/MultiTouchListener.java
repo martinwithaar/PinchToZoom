@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,8 +35,8 @@ public class MultiTouchListener implements OnTouchListener {
 	 */
 	
 	public MultiTouchListener() {
-		this.pointerIds = new ArrayList<Integer>(40); // 4 persons with both hands compatible :)
-		this.startPoints = new SparseArray<PointF>();
+		this.pointerIds = new ArrayList<>(40); // 4 persons with both hands compatible :)
+		this.startPoints = new SparseArray<>();
 	}
 	
 	/*

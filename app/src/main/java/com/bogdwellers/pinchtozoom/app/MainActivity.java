@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final int PICK_IMAGE = 1;
     public static final String DEFAULT_IMAGES_FOLDER = "default_images";
-    public static final String BITMAPS = "bitmaps";
+    public static final String PICKED_IMAGES = "picked_images";
     private static final BitmapFactory.Options BITMAP_FACTORY_OPTIONS;
     static {
         BITMAP_FACTORY_OPTIONS = new BitmapFactory.Options();
@@ -51,26 +50,36 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private ImageViewPagerAdapter imageViewPagerAdapter;
+    private ArrayList<Uri> pickedImageUris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<Drawable> drawables = new ArrayList<>();
-        if(savedInstanceState != null) {
-            Resources resources = getResources();
-            Parcelable[] parcelables = savedInstanceState.getParcelableArray(BITMAPS);
-            for (int i = 0, n = parcelables.length; i < n; i++) {
-                drawables.add(new BitmapDrawable(resources, (Bitmap) parcelables[i]));
-            }
-        } else {
-            addDefaultImages(drawables);
-        }
-        imageViewPagerAdapter = new ImageViewPagerAdapter(drawables);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        List<Drawable> drawables = new ArrayList<>();
+        addDefaultImages(drawables);
+
+        imageViewPagerAdapter = new ImageViewPagerAdapter(drawables);
+        viewPager = findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(imageViewPagerAdapter);
+
+        if(savedInstanceState != null) {
+            pickedImageUris = savedInstanceState.getParcelableArrayList(PICKED_IMAGES);
+        }
+
+        if(pickedImageUris != null) {
+            for(Uri uri: pickedImageUris) {
+                try {
+                    addDrawableByUri(uri);
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "File not found", e);
+                }
+            }
+        } else {
+            pickedImageUris = new ArrayList<>();
+        }
     }
 
     @Override
@@ -87,12 +96,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
             startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.add_photo)), PICK_IMAGE);
         } else if(R.id.clear == id) {
             List<Drawable> drawables = imageViewPagerAdapter.drawables;
             drawables.clear();
             addDefaultImages(drawables);
             imageViewPagerAdapter.notifyDataSetChanged();
+            pickedImageUris.clear();
         } else if(R.id.info == id) {
             DialogFragment infoDialogFragment = new InfoDialogFragment();
             infoDialogFragment.show(getFragmentManager(), "info");
@@ -101,45 +112,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        int n = imageViewPagerAdapter.drawables.size();
-        Parcelable[] parcelables = new Parcelable[n];
-        for(int i = 0; i < n; i++) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) imageViewPagerAdapter.drawables.get(i);
-            parcelables[i] = bitmapDrawable.getBitmap();
-        }
-        outState.putParcelableArray(BITMAPS, parcelables);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PICK_IMAGE) {
             if(data != null) {
                 Uri uri = data.getData();
                 Log.d(TAG, "Picked image: " + String.valueOf(uri));
-
                 if (uri != null) {
                     try {
-                        InputStream is = getContentResolver().openInputStream(uri);
-                        Bitmap bitmap = BitmapFactory.decodeStream(is, null, BITMAP_FACTORY_OPTIONS);
-                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        //Drawable drawable = new BitmapDrawable(getResources(), is);
-
-                        // Add drawable to end of list
-                        imageViewPagerAdapter.drawables.add(drawable);
-                        imageViewPagerAdapter.notifyDataSetChanged();
+                        addDrawableByUri(uri);
 
                         // Scroll to the end of list
                         viewPager.setCurrentItem(imageViewPagerAdapter.getCount() - 1);
                     } catch (FileNotFoundException e) {
                         Log.e(TAG, "File not found", e);
+                    } finally {
+                        pickedImageUris.add(uri);
                     }
                 }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(PICKED_IMAGES, pickedImageUris);
     }
 
     /**
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     if(is != null) {
                         try {
                             is.close();
-                        } catch(IOException e) {
+                        } catch(IOException ignored) {
                         }
                     }
                 }
@@ -174,6 +173,20 @@ public class MainActivity extends AppCompatActivity {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * @param uri
+     */
+    private void addDrawableByUri(Uri uri) throws FileNotFoundException {
+        InputStream is = getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(is, null, BITMAP_FACTORY_OPTIONS);
+        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+
+        // Add drawable to end of list
+        imageViewPagerAdapter.drawables.add(drawable);
+        imageViewPagerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -194,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             View view = layoutInflater.inflate(R.layout.page_image, null);
             container.addView(view);
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.image);
+            ImageView imageView = view.findViewById(R.id.image);
             imageView.setImageDrawable(drawables.get(position));
 
             ImageMatrixTouchHandler imageMatrixTouchHandler = new ImageMatrixTouchHandler(context);
@@ -207,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             View view = (View) object;
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.image);
+            ImageView imageView = view.findViewById(R.id.image);
             imageView.setImageResource(0);
 
             container.removeView(view);
