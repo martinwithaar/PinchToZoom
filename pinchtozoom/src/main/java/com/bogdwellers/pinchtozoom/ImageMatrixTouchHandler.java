@@ -1,13 +1,10 @@
 package com.bogdwellers.pinchtozoom;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -456,7 +453,7 @@ public class ImageMatrixTouchHandler extends MultiTouchListener {
 	 * @param y
 	 */
 	public void animateZoom(float zoomFactor, long duration, float x, float y) {
-		animateZoom(zoomFactor, duration, x, y);
+		animateZoom(zoomFactor, duration, x, y, null);
 	}
 
 	/**
