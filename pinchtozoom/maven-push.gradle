@@ -17,7 +17,7 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-static def isReleaseBuild() {
+def isReleaseBuild() {
     return !VERSION_NAME.contains("SNAPSHOT")
 }
 
