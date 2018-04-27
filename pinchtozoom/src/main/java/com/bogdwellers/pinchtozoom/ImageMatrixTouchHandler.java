@@ -50,6 +50,7 @@ public class ImageMatrixTouchHandler extends MultiTouchListener {
 	private boolean scaleEnabled;
 	private boolean translateEnabled;
     private boolean dragOnPinchEnabled;
+    private boolean consumeTouchEvent;
 	private long doubleTapZoomDuration;
 	private long flingDuration;
 	private long zoomReleaseDuration;
@@ -82,6 +83,7 @@ public class ImageMatrixTouchHandler extends MultiTouchListener {
 		this.scaleEnabled = true;
 		this.translateEnabled = true;
 		this.dragOnPinchEnabled = true;
+		this.consumeTouchEvent = true;
 		this.pinchVelocityWindow = 100;
 		this.doubleTapZoomDuration = 200;
 		this.flingDuration = 200;
@@ -186,6 +188,23 @@ public class ImageMatrixTouchHandler extends MultiTouchListener {
      */
 	public void setDragOnPinchEnabled(boolean dragOnPinchEnabled) {
 		this.dragOnPinchEnabled = dragOnPinchEnabled;
+	}
+
+	/**
+	 * <p>Indicates whether the touch event is consumed.</p>
+	 * @return
+	 */
+	public boolean isConsumeTouchEvent() {
+		return consumeTouchEvent;
+	}
+
+	/**
+	 * <p>Sets whether the touch event is consumed.</p>
+	 * <p>The default is <code>true</code>.</p>
+	 * @param consumeTouchEvent
+	 */
+	public void setConsumeTouchEvent(boolean consumeTouchEvent) {
+		this.consumeTouchEvent = consumeTouchEvent;
 	}
 
 	/**
@@ -391,7 +410,7 @@ public class ImageMatrixTouchHandler extends MultiTouchListener {
 			imageView.invalidate();
 			break;
 		}
-		return true; // indicate event was handled
+		return consumeTouchEvent; // indicate event was handled
 	}
 
 	/**
