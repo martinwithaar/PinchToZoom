@@ -63,7 +63,7 @@ public abstract class MatrixCorrector {
 	}
 
 	/**
-	 * * <p>Returns the corrected value of the given absolute vector.</p>
+	 * <p>Returns the corrected value of the given absolute vector.</p>
 	 * @param vector
 	 * @param x
      * @return
@@ -73,7 +73,7 @@ public abstract class MatrixCorrector {
 	}
 
 	/**
-	 * * <p>Returns the matrix.</p>
+	 * <p>Returns the matrix.</p>
 	 * @return
 	 */
 	public Matrix getMatrix() {
@@ -81,7 +81,7 @@ public abstract class MatrixCorrector {
 	}
 
 	/**
-	 * * * <p>Sets the matrix.</p>
+	 * <p>Sets the matrix.</p>
 	 * @param matrix
 	 */
 	public void setMatrix(Matrix matrix) {
@@ -89,7 +89,7 @@ public abstract class MatrixCorrector {
 	}
 
 	/**
-	 * * * <p>Returns the matrix values.</p>
+	 * <p>Returns the matrix values.</p>
 	 * @return
 	 */
 	protected float[] getValues() {
