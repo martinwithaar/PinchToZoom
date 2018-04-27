@@ -9,7 +9,7 @@ import android.widget.ImageView;
  * @author Martin
  *
  */
-public abstract class ImageMatrixCorrector extends MatrixCorrector {
+public class ImageMatrixCorrector extends MatrixCorrector {
 	
 	/*
 	 * Attributes
