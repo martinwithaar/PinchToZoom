@@ -1,3 +1,4 @@
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1-blue.svg)](https://mvnrepository.com/artifact/com.bogdwellers/pinchtozoom/0.1)
 [![Android Arsenal](https://img.shields.io/badge/Android_Arsenal-PinchToZoom-brightgreen.svg)](https://android-arsenal.com/details/1/5575)
 
 # PinchToZoom
